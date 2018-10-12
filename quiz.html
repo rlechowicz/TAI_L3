@@ -9,27 +9,75 @@
 <body>
 
 <nav class="container col-sm-9">
-    <ul class="nav nav-pills nav-fill justify-content-center">
-        <li class="nav-item">
-            <h1><a href="index.html">TAI</a></h1>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">Strona główna</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Blog</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="quiz.html">Quiz</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="kontakt.html">Kontakt</a>
-        </li>
-    </ul>
+    <div class="row">
+        <ul class="nav nav-pills nav-fill justify-content-center">
+            <li class="nav-item">
+                <h1><a href="index.html">TAI</a></h1>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Strona główna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="quiz.html">Quiz</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="kontakt.html">Kontakt</a>
+            </li>
+        </ul>
+    </div>
 </nav>
+<div>
+    <form>
+        <div class="row">
+            <div class="col-md-6 offset-md-3" id="quiz">
+                <div class="card" style="margin:50px 0">
+                    <div class="card-header">
+                        <span id="pytanie">Który z poniższych zawodników zdobył bramkę w meczu Polska-Portugalia w październiku 2018 roku?</span>
+                    </div>
 
-<div class="container">
-    <p>Lorem ut egestas naucibus interdum. Donec varius ante nec egestas rutrum.</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span id="odp-a">Arkadiusz Milik</span>
+                            <label class="checkbox">
+                                <input type="checkbox" id="check-a" value="answer-a"/>
+                                <span class="primary"></span>
+                            </label>
+                        </li>
+                        <li class="list-group-item">
+                            <span id="odp-b">Jakub Błaszczykowski</span>
+                            <label class="checkbox">
+                                <input type="checkbox" id="check-b" value="answer-b"/>
+                                <span class="primary"></span>
+                            </label>
+                        </li>
+                        <li class="list-group-item">
+                            <span id="odp-c">Robert Lewandowski</span>
+                            <label class="checkbox">
+                                <input type="checkbox" id="check-c" value="answer-c"/>
+                                <span class="primary"></span>
+                            </label>
+                        </li>
+                        <li class="list-group-item">
+                            <span id="odp-d">Krzysztof Piątek</span>
+                            <label class="checkbox">
+                                <input type="checkbox" id="check-d" value="answer-d"/>
+                                <span class="primary"></span>
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="card-footer">
+                        <button type="submit" id="submit" class="btn btn-primary col-sm-12">Dalej</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 offset-md-3" id="results">
+                (Results)
+            </div>
+        </div>
+    </form>
 </div>
 
 <script src="questions.js"</script>
