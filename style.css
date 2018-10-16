@@ -34,3 +34,17 @@ li {
 .checkbox input:checked + .info:after{border-color:#3de0f5}
 .checkbox input:checked + .warning:after{border-color:#FFC107}
 .checkbox input:checked + .danger:after{border-color:#f44336}
+
+.custom-form{
+    width:25%;
+}
+.custom-style-quiz{
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.hidden{
+    display:none;
+}

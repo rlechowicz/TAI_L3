@@ -1,118 +1,115 @@
-//https://www.sitepoint.com/simple-javascript-quiz/
-
-const quizContainer = document.getElementById('quiz');
-const resultsContainer = document.getElementById('results');
-const submitButton = document.getElementById('submit');
-
-const myQuestions = [
+let questions=[
     {
-        question: "Ile to jest 2+2?",
-        answers: {
-            a: "2",
-            b: "3",
-            c: "4",
-            d: "5"
-        },
-        correctAnswer: "c"
+        question:"Która z planet Układu Słonecznego jest najmniejsza?",
+        answers:["Mars","Wenus","Merkury","Neptun"],
+        correct:[2]
     },
     {
-        question: "Ile to jest 7-4?",
-        answers: {
-            a: "6",
-            b: "5",
-            c: "4",
-            d: "3"
-        },
-        correctAnswer: "d"
+        question:"Czym zajmuje się myrmekolog?",
+        answers:["ptakami","motylami","dżdżownicami","mrówkami"],
+        correct:[3]
     },
     {
-        question: "Ile to jest 10*10?",
-        answers: {
-            a: "10",
-            b: "100",
-            c: "1000",
-            d: "10000"
-        },
-        correctAnswer: "b"
-    }
+        question:"W składzie chemicznym pełnego mleka krowiego największy udział ma:",
+        answers:["białko","tłuszcz","laktoza","woda"],
+        correct:[3]
+    },
+    {
+        question:"Premierem RP była",
+        answers:["Henryka Bochniarz","Hanna Suchocka","Jolanta Kwaśniewska","Hanna Gronkiewicz-Waltz"],
+        correct:[1]
+    },
+    {
+        question:"Kto opatentował żarówkę?",
+        answers:["Aleksander Fleming","Albert Einstein","Thomas Edison","James Watt"],
+        correct:[2]
+    },
+    {
+        question:"Litr chłodnej wody waży w przybliżeniu:",
+        answers:["2 dekagramy","10 funtów","10 uncji","kilogram"],
+        correct:[3]
+    },
+    {
+        question:"Jaką część liter w wyrazie BAJZEL stanowią samogłoski?",
+        answers:["jedną trzecią","jedną piątą","jedną drugą","jedną czwartą"],
+        correct:[0]
+    },
+    {
+        question:"Co ma na nogach panczenista?",
+        answers:["korki","narty","łyżwy","płetwy"],
+        correct:[2]
+    },
+    {
+        question:"Agata Duda witała się ze swoimi uczniami, mówiąc:",
+        answers:["Guten Morgen","Good morning","Bonjour","Buongiorno"],
+        correct:[0]
+    },
+    {
+        question:"Na ile pytań już odpowiedziałeś?",
+        answers:["7","8","9","10"],
+        correct:[2]
+    },
 ];
-
-function buildQuiz(){
-
-    // we'll need a place to store the HTML output
-    const output = [];
-
-    // for each question...
-    myQuestions.forEach(
-        (currentQuestion, questionNumber) => {
-
-            // we'll want to store the list of answer choices
-            const answers = [];
-
-            // and for each available answer...
-            for(letter in currentQuestion.answers){
-
-                // ...add an HTML radio button
-                answers.push(
-                    `'<label>
-            <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${letter} :
-            ${currentQuestion.answers[letter]}
-          </label>'`
-                );
-            }
-
-            // add this question and its answers to the output
-            output.push(
-                '<div class="question"> ${currentQuestion.question} </div>
-                <div class="answers"> ${answers.join('')} </div>`
-            );
-        }
-    );
-
-    // finally combine our output list into one string of HTML and put it on the page
-    quizContainer.innerHTML = output.join('');
-
+let currentQuestion=0;
+let answerList=[];
+let result=0;
+let currentAnswer=[];
+(()=>{
+    setQuestionValues();
+    localStorage.setItem("answers",JSON.stringify([]));
+    localStorage.setItem("results",JSON.stringify([]));
+})();
+ function printOut(e){
+    e.preventDefault();
+    answerList.push(currentAnswer.slice());
+    currentQuestion++;
+    document.getElementsByClassName("progress-bar").item(0).style.width=currentQuestion/questions.length*100+"%";
+    if(currentQuestion>=questions.length){
+        finishQuiz();
+    } else{
+        setQuestionValues();
+    }
+	document.getElementById("ans1").checked=false;
+	document.getElementById("ans2").checked=false;
+	document.getElementById("ans3").checked=false;
+	document.getElementById("ans4").checked=false;
 }
-
-function showResults(){
-
-    // gather answer containers from our quiz
-    const answerContainers = quizContainer.querySelectorAll('.answers');
-
-    // keep track of user's answers
-    let numCorrect = 0;
-
-    // for each question...
-    myQuestions.forEach( (currentQuestion, questionNumber) => {
-
-        // find selected answer
-        const answerContainer = answerContainers[questionNumber];
-        const selector = 'input[name=question'+questionNumber+']:checked';
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-        // if answer is correct
-        if(userAnswer===currentQuestion.correctAnswer){
-            // add to the number of correct answers
-            numCorrect++;
-
-            // color the answers green
-            answerContainers[questionNumber].style.color = 'lightgreen';
-        }
-        // if answer is wrong or blank
-        else{
-            // color the answers red
-            answerContainers[questionNumber].style.color = 'red';
-        }
-    });
-
-    // show number of correct answers out of total
-    resultsContainer.innerHTML = numCorrect + ' out of ' + myQuestions.length;
-
+function setQuestionValues(){
+    document.getElementById("question").innerText=questions[currentQuestion].question;
+    for(let i=0;i<questions[currentQuestion].answers.length;i++){
+        document.getElementById("ans"+i+"txt").innerText=questions[currentQuestion].answers[i];
+    }
 }
-
-// display quiz right away
-buildQuiz();
-
-// on submit, show results
-submitButton.addEventListener('click', showResults);
+function finishQuiz(){
+    document.getElementsByClassName("custom-style-quiz").item(0).classList.add("hidden");
+    document.getElementsByClassName("results").item(0).classList.remove("hidden");
+    let count=0;
+    for(let i=0;i<answerList.length;i++){
+        if(JSON.stringify(questions[i].correct)===JSON.stringify(answerList[i])){
+            count++;
+        }
+    }
+    result=(count/questions.length*100).toFixed(2);
+    document.getElementsByClassName("result-text").item(0).innerHTML="Odpowiedziałeś poprawnie na "+result+" % pytań.";
+}
+function retry(){
+    document.getElementsByClassName("custom-style-quiz").item(0).classList.remove("hidden");
+    document.getElementsByClassName("results").item(0).classList.add("hidden");
+    currentQuestion=0;
+    document.getElementsByClassName("progress-bar").item(0).style.width=currentQuestion/questions.length*100+"%";
+    let ans = JSON.parse(localStorage.getItem("answers"));
+    let res = JSON.parse(localStorage.getItem("results"));
+    ans.push(answerList);
+    res.push(result);
+    localStorage.setItem("answers",JSON.stringify(ans));
+    localStorage.setItem("results",JSON.stringify(res));
+    answerList=[];
+    setQuestionValues();
+}
+function set(value){
+    if(currentAnswer.includes(value)){
+        currentAnswer.splice(currentAnswer.indexOf(value),1);
+    } else{
+        currentAnswer.push(value);
+    }
+} 
