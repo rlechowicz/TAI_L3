@@ -90,7 +90,7 @@ function finishQuiz(){
         }
     }
     result=(count/questions.length*100).toFixed(2);
-    document.getElementsByClassName("result-text").item(0).innerHTML="Odpowiedziałeś poprawnie na "+result+" % pytań.";
+    document.getElementsByClassName("result-text").item(0).innerHTML="Odpowiedziałeś poprawnie na "+count+" z "+questions.length+" pytań.";
 }
 function retry(){
     document.getElementsByClassName("custom-style-quiz").item(0).classList.remove("hidden");
